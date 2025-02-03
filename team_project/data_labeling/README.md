@@ -1,7 +1,7 @@
 # 데이터 라벨링
 ```
-라벨링 관련 폴더입니다.
-class명 dog_cart
+라벨링 관련 폴더입니다. c드라이브에서만 작동됩니다.
+class명 dog,dog_cart,person
 ```
 
 # 구글 드라이브
