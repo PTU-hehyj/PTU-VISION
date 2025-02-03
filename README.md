@@ -20,7 +20,7 @@ Computer Viosion을 활용한 백화점 또는 종합쇼핑몰과 같은 반려�
 
 ## 데이터셋
 ```
-[반려견 dataset(image&labeling)](https://drive.google.com/drive/folders/1qY-g9MFb0RJ91T8xGppeA2bVA5sUQkCc?usp=drive_link)
+https://drive.google.com/drive/folders/1qY-g9MFb0RJ91T8xGppeA2bVA5sUQkCc?usp=drive_link
 소형견
 중형견
 대형견
