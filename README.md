@@ -43,3 +43,8 @@ Computer Viosion을 활용한 백화점 또는 종합쇼핑몰과 같은 반려�
 10. PPT 자료 준비
 11. 깃허브 소스 코드 관리
 
+
+
+## 쇼핑몰 협업 제안서
+https://docs.google.com/document/d/1dnBOkKHojasC4Jof8rYjHW3NFo0hVSo5XETa4b99nDI/edit?usp=sharing
+
