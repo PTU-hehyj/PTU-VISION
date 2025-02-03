@@ -13,4 +13,4 @@ class명 dog,dog_cart,person
 
 [object365 github](https://github.com/ultralytics/yolov5/blob/master/data/Objects365.yaml)
 
-[ultralytics 홈페이지 설명] (https://docs.ultralytics.com/ko/datasets/detect/lvis/)
+[ultralytics 홈페이지 설명](https://docs.ultralytics.com/ko/datasets/detect/lvis/)
