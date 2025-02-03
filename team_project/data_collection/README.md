@@ -6,6 +6,7 @@
 소형견, 중형견, 대형견은 800장, 유모차 탄 반려견은 500장
 데이터 크롤링 파일은 수업시간에 코랩에서 작성한 파일을 수정한것입니다. jpg 파일만을 저장하도록 변경하였습니다.
 ==> 소,중,대 형견은 로보플로우에서 가져와서 저장하기!
+https://www.pexels.com/ko-kr/videos/
 ```
 # 구글 드라이브
 [반려견 dataset(image&labeling)](https://drive.google.com/drive/folders/1qY-g9MFb0RJ91T8xGppeA2bVA5sUQkCc?usp=drive_link)
