@@ -8,3 +8,6 @@ class명 dog,dog_cart,person
 # 구글 드라이브
 [반려견 dataset(image&labeling)](https://drive.google.com/drive/folders/1qY-g9MFb0RJ91T8xGppeA2bVA5sUQkCc?usp=drive_link)
 
+# 데이터 라벨링 셋
+[lvis](https://github.com/ultralytics/ultralytics/blob/main/ultralytics/cfg/datasets/lvis.yaml)
+[object365](https://github.com/ultralytics/yolov5/blob/master/data/Objects365.yaml)
