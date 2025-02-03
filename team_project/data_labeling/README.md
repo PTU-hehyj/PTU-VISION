@@ -10,4 +10,5 @@ class명 dog,dog_cart,person
 
 # 데이터 라벨링 셋
 [lvis](https://github.com/ultralytics/ultralytics/blob/main/ultralytics/cfg/datasets/lvis.yaml)
+
 [object365](https://github.com/ultralytics/yolov5/blob/master/data/Objects365.yaml)
