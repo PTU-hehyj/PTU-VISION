@@ -49,3 +49,6 @@ Computer Viosion을 활용한 백화점 또는 종합쇼핑몰과 같은 반려�
 ## 쇼핑몰 협업 제안서
 https://docs.google.com/document/d/1dnBOkKHojasC4Jof8rYjHW3NFo0hVSo5XETa4b99nDI/edit?usp=sharing
 
+## 공유드라이브
+https://drive.google.com/drive/folders/144WWFIqa0FAuYowrmBJ43xQD4AG7LUhG?usp=drive_link
+
