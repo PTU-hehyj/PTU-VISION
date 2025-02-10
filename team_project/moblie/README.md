@@ -50,23 +50,27 @@ sudo apt-get install python3-pip
 프로젝트를 위한 독립된 Python 환경을 만들어 패키지 충돌을 방지합니다:
 
 가상환경 생성:
-
+```
 virtualenv dogserver
+```
 가상환경 디렉토리로 이동:
-
+```
 cd dogserver
+```
 가상환경 활성화:
-
+```
 source ./bin/activate
+```
 Flask 설치:
-
+```
 pip install flask
+```
 5. Flask 애플리케이션 설정
 애플리케이션 파일을 생성하고 편집합니다:
 
-파일 존재 여부 확인: ls
+파일 존재 여부 확인: ```ls```
 
-새 파일 생성 및 편집: nano app.py
+새 파일 생성 및 편집: ```nano app.py```
 
 6. 파일 저장 방법
 nano 에디터에서 코드를 입력한 후:
@@ -89,7 +93,7 @@ Source: 0.0.0.0/0 (모든 IP 허용)
 
 9. index.html 파일
 index.html 파일은 클라이언트 측에서 비디오 스트리밍과 객체 탐지 결과를 표시하는 템플릿 파일입니다. 해당 파일은 다음과 같은 내용을 포함하고 있습니다:
-
+```
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -115,10 +119,11 @@ index.html 파일은 클라이언트 측에서 비디오 스트리밍과 객체 
     </div>
 </body>
 </html>
+```
 이 HTML 파일은 실시간으로 카메라 비디오 스트리밍을 표시하고, 객체가 탐지되면 탐지된 객체의 수를 화면에 업데이트합니다.
 10. app.py (Flask 서버 코드)
 Flask 애플리케이션 코드입니다. YOLO 모델을 사용하여 객체 탐지를 수행하고, MJPEG 스트리밍을 통해 클라이언트에 실시간 비디오를 제공합니다. 또한, SocketIO를 사용하여 객체 수를 클라이언트에 실시간으로 전송합니다.
-
+```
 import cv2
 import numpy as np
 from flask import Flask, render_template, Response, jsonify
@@ -198,6 +203,7 @@ def handle_connect():
 if __name__ == '__main__':
     print("Starting the Flask app...")
     socketio.run(app, host='0.0.0.0', port=5000, debug=True)
+```
 11. ngrok을 통한 HTTPS 설정
 웹 애플리케이션이 HTTP를 사용하게 되면, 모바일 장치에서 보안 문제로 인해 카메라를 사용할 수 없을 수 있습니다. 이를 해결하기 위해 ngrok을 사용하여 로컬 서버를 HTTPS로 포워딩할 수 있습니다.
 
