@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Feed</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.min.js"></script> <!-- SocketIO 라이브러리 추가 -->
+    <script>
+        // SocketIO 연결
+        const socket = io();
+
+        // 객체 개수 업데이트 함수
+        socket.on('object_count', (data) => {
+            document.getElementById('object_count').textContent = 'Objects detected: ' + data.object_count;
+        });
+    </script>
+</head>
+<body>
+    <h1>Live Video Feed</h1>
+    <img src="{{ url_for('video_feed') }}" width="100%" />
+    <div>
+        <h2 id="object_count">Objects detected: 0</h2> <!-- 객체 수를 표시할 부분 -->
+    </div>
+</body>
+</html>
