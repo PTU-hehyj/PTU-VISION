@@ -10,6 +10,7 @@ SocketIO를 통한 실시간 데이터 통신: 객체 탐지 결과와 객체 �
 bash
 복사
 편집
+
 /yolo-app
 │
 ├── app.py                     # Flask 서버 코드
