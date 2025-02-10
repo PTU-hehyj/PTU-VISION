@@ -1,5 +1,5 @@
-###README.md
-###YOLO 객체 탐지 및 실시간 비디오 스트리밍 웹 애플리케이션
+README.md
+# YOLO 객체 탐지 및 실시간 비디오 스트리밍 웹 애플리케이션
 이 프로젝트는 YOLO (You Only Look Once) 모델을 사용하여 실시간 객체 탐지와 MJPEG 비디오 스트리밍을 Flask와 SocketIO로 구현한 웹 애플리케이션입니다.
 
 기능
