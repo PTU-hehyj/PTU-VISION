@@ -7,9 +7,7 @@ YOLO 객체 탐지 및 실시간 비디오 스트리밍 웹 애플리케이션
 YOLO 객체 탐지: 실시간 비디오 스트림에서 객체를 탐지하고, 탐지된 객체의 개수를 웹 페이지에서 확인할 수 있습니다.
 SocketIO를 통한 실시간 데이터 통신: 객체 탐지 결과와 객체 수를 실시간으로 클라이언트에 전달합니다.
 파일 구성
-bash
-복사
-편집
+
 ```
 /yolo-app
 │
@@ -33,61 +31,39 @@ cd "C:\Users\young\OneDrive\바탕 화면\"와 같이 Key Pair가 있는 디렉�
 ssh -i "for_laptop.pem" ec2-user@[인스턴스 주소] 명령어를 통해 EC2 인스턴스에 접속합니다.
 3. 기본 패키지 설치
 시스템 패키지 업데이트:
-bash
-복사
-편집
+
 sudo apt-get update
 Python3 설치:
-bash
-복사
-편집
+
 sudo apt-get install python3
 pip 설치:
-bash
-복사
-편집
+
 sudo apt-get install python3-pip
 가상환경 관리자 설치:
-bash
-복사
-편집
+
 sudo apt-get install python3-pip
-4. 가상환경 설정
+5. 가상환경 설정
 프로젝트를 위한 독립된 Python 환경을 만들어 패키지 충돌을 방지합니다:
 
 가상환경 생성:
-bash
-복사
-편집
+
 virtualenv dogserver
 가상환경 디렉토리로 이동:
-bash
-복사
-편집
+
 cd dogserver
 가상환경 활성화:
-bash
-복사
-편집
+
 source ./bin/activate
 Flask 설치:
-bash
-복사
-편집
+
 pip install flask
 5. Flask 애플리케이션 설정
 애플리케이션 파일을 생성하고 편집합니다:
 
-파일 존재 여부 확인:
-bash
-복사
-편집
-ls
-새 파일 생성 및 편집:
-bash
-복사
-편집
-nano app.py
+파일 존재 여부 확인: ls
+
+새 파일 생성 및 편집: nano app.py
+
 6. 파일 저장 방법
 nano 에디터에서 코드를 입력한 후:
 
@@ -97,9 +73,6 @@ Ctrl + X를 눌러 저장 모드로 진입
 7. Flask 서버 실행
 서버를 실행하고 동작을 확인합니다:
 
-bash
-복사
-편집
 python3 app.py
 8. 인바운드 규칙 수정
 EC2 보안 그룹에서 포트 5000을 열어 Flask 서버에 접근할 수 있도록 설정해야 합니다.
@@ -113,9 +86,6 @@ Source: 0.0.0.0/0 (모든 IP 허용)
 9. index.html 파일
 index.html 파일은 클라이언트 측에서 비디오 스트리밍과 객체 탐지 결과를 표시하는 템플릿 파일입니다. 해당 파일은 다음과 같은 내용을 포함하고 있습니다:
 
-html
-복사
-편집
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -145,9 +115,6 @@ html
 10. app.py (Flask 서버 코드)
 Flask 애플리케이션 코드입니다. YOLO 모델을 사용하여 객체 탐지를 수행하고, MJPEG 스트리밍을 통해 클라이언트에 실시간 비디오를 제공합니다. 또한, SocketIO를 사용하여 객체 수를 클라이언트에 실시간으로 전송합니다.
 
-python
-복사
-편집
 import cv2
 import numpy as np
 from flask import Flask, render_template, Response, jsonify
@@ -235,9 +202,6 @@ ngrok 다운로드 및 설치: ngrok 다운로드 페이지에서 운영체제�
 
 ngrok 실행: ngrok을 실행하여 로컬 Flask 서버를 HTTPS로 포워딩합니다. 터미널에서 다음 명령어를 입력합니다:
 
-bash
-복사
-편집
 ngrok http 5000
 ngrok URL 확인: ngrok이 실행되면, https://xxxxxx.ngrok.io와 같은 HTTPS URL이 생성됩니다. 이 URL을 통해 외부에서 안전하게 접속할 수 있습니다.
 
