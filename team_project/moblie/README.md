@@ -10,7 +10,7 @@ SocketIO를 통한 실시간 데이터 통신: 객체 탐지 결과와 객체 �
 bash
 복사
 편집
-
+```
 /yolo-app
 │
 ├── app.py                     # Flask 서버 코드
@@ -22,6 +22,7 @@ bash
 │   ├── /js
 │   │   └── script.js          # JavaScript 파일 (클라이언트 로직)
 └── yolo_model.h5              # YOLO 모델 파일 (예시)
+```
 1. AWS EC2 설정
 AWS EC2 가입 및 인스턴스 생성: AWS EC2 공식 문서를 참조하여 EC2 인스턴스를 생성합니다.
 Key Pair 권한 설정: EC2 인스턴스를 생성할 때 Key Pair를 설정하고, SSH 접속을 위한 키 파일을 로컬에 저장합니다.
