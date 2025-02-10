@@ -1,0 +1,56 @@
+<!--멋진 페이지를 만들고 싶어서 연구중인 edit ver.-->
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>project huhyj</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}"> <!--css 부분-->
+</head>
+<body>
+    <div class="wrap">
+        <!--헤더-->
+        <header id="header">Header</header>
+        <!--바디-->
+        <body id="body">
+          <div class="scroll scrollUp">펫파인더 소개</div>
+            </div>
+          <div class="scroll scrollDown">실시간 쇼핑몰 내부 화면</div>
+                <div class="speak">표시된 마커 위에 마우스를 올려놓으면 실시간 화면을 볼 수 있습니다.</div>
+                <div class="map-container">
+                    <img src="{{ url_for('static', filename='map.JPG') }}" alt="안성스타필드_1층지도" class="map_img">
+                    <!--flask에서는 정적 파일 직접 참조 불가. url_for로 친구 데려오기-->
+            
+                    <!-- 비디오 객체 1 -->
+                    <div class="marker" id="marker1"> 
+                        <img src="{{ url_for('static', filename='marker.png') }}" alt="마커 1">
+                        <div class="video-box" id="video1">
+                            <img src="{{ url_for('video_feed_1') }}" controls autoplay muted loop width="140">
+                            <p>광장 1</p>
+                        </div>
+                    </div>
+            
+                    <!-- 비디오 객체 2 -->
+                    <div class="marker" id="marker2">
+                        <img src="{{ url_for('static', filename='marker.png') }}" alt="마커 2">
+                        <div class="video-box" id="video2">
+                            <img src="{{ url_for('video_feed_2') }}" controls autoplay muted loop width="140">
+                            <p>광장 2</p>
+                        </div>
+                    </div>
+          <div class="scroll scrollDown">강아지 알레르기 알람</div>
+          
+          <div class="delayScale">
+            <ul>
+              <li class="delayList">1</li>
+              <li class="delayList">2</li>
+              <li class="delayList">3</li>
+            </ul>
+          </div>
+        </body>
+      </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
