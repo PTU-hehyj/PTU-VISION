@@ -6,7 +6,7 @@
 ```
 
 # 구글 드라이브
-[반려견 dataset(image&labeling)](https://drive.google.com/drive/folders/1qY-g9MFb0RJ91T8xGppeA2bVA5sUQkCc?usp=drive_link)
+[Roboflow데이터셋](https://drive.google.com/drive/folders/1Vyx8iw4OR4G7TzCwlHkpcMx3PMtrwQ9p?usp=drive_link)
 
 # 데이터 라벨링 셋
 [lvis github](https://github.com/ultralytics/ultralytics/blob/main/ultralytics/cfg/datasets/lvis.yaml)
