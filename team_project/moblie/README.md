@@ -31,17 +31,21 @@ cd "C:\Users\young\OneDrive\바탕 화면\"와 같이 Key Pair가 있는 디렉�
 ssh -i "for_laptop.pem" ec2-user@[인스턴스 주소] 명령어를 통해 EC2 인스턴스에 접속합니다.
 3. 기본 패키지 설치
 시스템 패키지 업데이트:
-
+```
 sudo apt-get update
+```
 Python3 설치:
-
+```
 sudo apt-get install python3
+```
 pip 설치:
-
+```
 sudo apt-get install python3-pip
+```
 가상환경 관리자 설치:
-
+```
 sudo apt-get install python3-pip
+```
 5. 가상환경 설정
 프로젝트를 위한 독립된 Python 환경을 만들어 패키지 충돌을 방지합니다:
 
