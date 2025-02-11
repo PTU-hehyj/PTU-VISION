@@ -19,3 +19,4 @@ def download_images(keyword, limit):
 keyword = input("이미지 검색어를 입력하세요: ")
 limit = int(input("다운로드할 이미지 수를 입력하세요: "))
 download_images(keyword, limit)
+#asdf
