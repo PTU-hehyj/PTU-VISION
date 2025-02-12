@@ -149,7 +149,6 @@ index.html 파일은 클라이언트 측에서 비디오 스트리밍과 객체 
     <div class="speak">펫파인더 로고에 마우스를 올리면 실시간 화면을 볼 수 있어요!</div>
     <div class="map-container">
         <img src="{{ url_for('static', filename='map.JPG') }}" alt="안성스타필드_1층지도" class="map_img">
-
         <!-- 비디오 객체 1 -->
         {# 마커 색상 변경을 위한 data 속성 설정 #}
         <div class="marker" id="marker1" 
@@ -163,7 +162,6 @@ index.html 파일은 클라이언트 측에서 비디오 스트리밍과 객체 
             </div>
         </div>
     </div>
-
     <script>
         /**
          * 마커의 상태를 업데이트하는 함수
@@ -174,7 +172,6 @@ index.html 파일은 클라이언트 측에서 비디오 스트리밍과 객체 
                 .then(response => response.json())
                 .then(data => {
                     const marker1 = document.getElementById("marker1").querySelector("img");
-
                     // 마커1 상태 적용
                     let color1 = "black";
                     if (data.marker1.status.includes("Warning")) {
@@ -182,19 +179,18 @@ index.html 파일은 클라이언트 측에서 비디오 스트리밍과 객체 
                     } else if (data.marker1.status.includes("Danger")) {
                         color1 = "red";
                     }
-
                     // 마커 1 색상 적용 (data- 속성 활용)
                     marker1.src = document.getElementById("marker1").dataset[color1];
                 })
                 .catch(error => console.error("Error fetching status:", error));
         }
-
         // 1초마다 상태 업데이트
         setInterval(updateMarkers, 1000);
     </script>
 </body>
 </html>
 ```
+
 이 HTML 파일은 웹 페이지에서 실시간 객체 탐지 결과를 보여주고, 사용자가 마우스를 로고 위에 올렸을 때 실시간 비디오 스트리밍을 볼 수 있는 기능을 제공합니다.
 로고와 텍스트: 페이지 상단에 "PET FINDER"라는 제목과 설명이 있습니다. 로고 위에 마우스를 올리면 비디오 스트리밍을 볼 수 있다는 안내도 포함되어 있습니다.
 지도와 마커: 페이지에는 이미지로 된 지도가 있고, 그 위에 마커가 표시되어 있습니다. 마커는 객체 탐지 상태에 따라 색상이 변하는데, 이를 통해 사용자가 실시간으로 변화하는 상태를 볼 수 있습니다.
