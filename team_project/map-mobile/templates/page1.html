@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>project huhyj</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}"> <!-- css 부분 -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined&display=swap" /> <!-- 돋보기 아이콘 -->
+</head>
+<body>
+    <img src="{{ url_for('static', filename='marker.png') }}" alt="Logo" class="logo">
+    <div class="title-container">
+        <div class="title" id="title">PET FINDER</div>
+    </div>
+    <div class="speak">펫파인더 로고에 마우스를 올리면 실시간 화면을 볼 수 있어요!</div>
+    <div class="map-container">
+        <img src="{{ url_for('static', filename='map.JPG') }}" alt="안성스타필드_1층지도" class="map_img">
+
+        <!-- 비디오 객체 1 -->
+        {# 마커 색상 변경을 위한 data 속성 설정 #}
+        <div class="marker" id="marker1" 
+             data-black="{{ url_for('static', filename='marker_black.png') }}"
+             data-blue="{{ url_for('static', filename='marker_blue.png') }}"
+             data-red="{{ url_for('static', filename='marker_red.png') }}">
+            <img src="{{ url_for('static', filename='marker.png') }}" alt="마커 1">
+            <div class="video-box" id="video1">
+                <!-- MJPEG 스트리밍을 위한 이미지 표시 -->
+                <img class="hover-video" src="{{ url_for('video_feed_1') }}" alt="Marker 1 Video" width="100%">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /**
+         * 마커의 상태를 업데이트하는 함수
+         * - Flask API '/get_status'에서 데이터를 가져와서 마커 색상 변경
+         */
+        function updateMarkers() {
+            fetch('/get_status')
+                .then(response => response.json())
+                .then(data => {
+                    const marker1 = document.getElementById("marker1").querySelector("img");
+
+                    // 마커1 상태 적용
+                    let color1 = "black";
+                    if (data.marker1.status.includes("Warning")) {
+                        color1 = "blue";
+                    } else if (data.marker1.status.includes("Danger")) {
+                        color1 = "red";
+                    }
+
+                    // 마커 1 색상 적용 (data- 속성 활용)
+                    marker1.src = document.getElementById("marker1").dataset[color1];
+                })
+                .catch(error => console.error("Error fetching status:", error));
+        }
+
+        // 1초마다 상태 업데이트
+        setInterval(updateMarkers, 1000);
+    </script>
+</body>
+</html>
