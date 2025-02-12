@@ -193,6 +193,135 @@ index.html 파일은 클라이언트 측에서 비디오 스트리밍과 객체 
 </body>
 </html>
 ```
+이 HTML 파일은 웹 페이지에서 실시간 객체 탐지 결과를 보여주고, 사용자가 마우스를 로고 위에 올렸을 때 실시간 비디오 스트리밍을 볼 수 있는 기능을 제공합니다.
+로고와 텍스트: 페이지 상단에 "PET FINDER"라는 제목과 설명이 있습니다. 로고 위에 마우스를 올리면 비디오 스트리밍을 볼 수 있다는 안내도 포함되어 있습니다.
+지도와 마커: 페이지에는 이미지로 된 지도가 있고, 그 위에 마커가 표시되어 있습니다. 마커는 객체 탐지 상태에 따라 색상이 변하는데, 이를 통해 사용자가 실시간으로 변화하는 상태를 볼 수 있습니다.
+비디오 스트리밍: 마커에 해당하는 비디오 스트림은 웹캠에서 캡처된 비디오를 보여주며, 실시간으로 객체를 탐지한 결과도 함께 표시됩니다.
+상태 업데이트: 마커의 색상은 탐지된 객체의 수에 따라 Normal, Warning, Danger 상태로 변하며, 이 정보는 1초마다 서버에서 실시간으로 업데이트되어 사용자에게 최신 상태를 전달합니다.
+
+### 10. project_flask.py (Flask 서버 코드)
+Flask 애플리케이션 코드입니다. YOLO 모델을 사용하여 객체 탐지를 수행하고, MJPEG 스트리밍을 통해 클라이언트에 실시간 비디오를 제공합니다. 또한, SocketIO를 사용하여 객체 수를 클라이언트에 실시간으로 전송합니다.
+```
+from ultralytics import YOLO
+import cv2
+from flask import Flask, Response, render_template, jsonify
+from flask_socketio import SocketIO
+
+app = Flask(__name__)
+
+# YOLO 모델 로드
+model = YOLO("yolov8s.pt")
+socketio = SocketIO(app)  # SocketIO 객체 생성
+# 현재 상태 저장 변수
+current_status = {
+    "marker1": {"count": 0, "status": "Normal", "color": (0, 0, 0)},  # marker1에 대한 상태
+}
+
+# 첫 번째 웹캠 스트리밍 함수
+def generate_frame_1():
+    cap = cv2.VideoCapture(0)  # 웹캠 사용
+    return stream_video(cap, "marker1")
+
+# 공통 비디오 스트리밍 로직
+def stream_video(cap, marker):
+    global current_status
+    
+    if not cap.isOpened():  # 카메라 연결 확인
+        print("카메라 열기 실패")
+        return
+    
+    while True:
+        success, frame = cap.read()
+        if not success:
+            print("프레임 읽기 실패")
+            break
+        
+        # YOLO 모델 추론
+        results = model(frame, conf=0.1)
+        annotated_frame = results[0].plot()  # 객체가 그려진 프레임
+        detected_objects_count = len(results[0].boxes)  # 탐지된 객체 수
+
+        # 상태 메시지 정의
+        status_text = f"COUNT: {detected_objects_count}"
+        if detected_objects_count <= 1:
+            status_text += " => Normal"
+            color = (0, 0, 0)  # 검정
+        elif detected_objects_count <= 3:
+            status_text += " => Warning"
+            color = (255, 0, 0)  # 블루
+        else:
+            status_text += " => Danger"
+            color = (0, 0, 255)  # 레드
+
+        # 현재 상태 업데이트
+        current_status[marker] = {
+            "count": detected_objects_count,
+            "status": status_text,
+            "color": color
+        }
+
+        # 텍스트 추가 (객체 수와 상태를 이미지에 표시)
+        cv2.putText(
+            annotated_frame,
+            status_text,
+            (10, 30),
+            cv2.FONT_HERSHEY_SIMPLEX,
+            1,
+            color,
+            2
+        )
+
+        # SocketIO를 통해 객체 탐지 결과 전송
+        socketio.emit('object_count', {'object_count': detected_objects_count})  # 실시간 객체 수 전송
+
+        # MJPEG 형식으로 이미지를 인코딩하여 전송
+        _, buffer = cv2.imencode('.jpg', annotated_frame)
+        frame_bytes = buffer.tobytes()
+
+        # Base64로 인코딩하여 클라이언트에 전송 (불필요한 부분 제거)
+        yield (b'--frame\r\n'
+               b'Content-Type: image/jpeg\r\n\r\n' + frame_bytes + b'\r\n')
+
+    cap.release()
+
+
+
+
+# Flask 라우트 설정
+@app.route('/')
+def index():
+    return render_template("page1.html")
+
+@app.route('/video1')
+def video_feed_1():
+    return Response(generate_frame_1(), mimetype='multipart/x-mixed-replace; boundary=frame')
+
+# 현재 상태를 반환하는 API
+@app.route('/get_status')
+def get_status():
+    return jsonify(current_status)
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000, debug=True)
+
+```
+### 11. ngrok을 통한 HTTPS 설정
+웹 애플리케이션이 HTTP를 사용하게 되면, 모바일 장치에서 보안 문제로 인해 카메라를 사용할 수 없을 수 있습니다. 이를 해결하기 위해 ngrok을 사용하여 로컬 서버를 HTTPS로 포워딩할 수 있습니다.
+
+설정 방법
+ngrok 다운로드 및 설치: ngrok 다운로드 페이지에서 운영체제에 맞는 ngrok을 다운로드하여 설치합니다.
+
+ngrok 실행: ngrok을 실행하여 로컬 Flask 서버를 HTTPS로 포워딩합니다. 터미널에서 다음 명령어를 입력합니다:
+
+ngrok http 5000
+ngrok URL 확인: ngrok이 실행되면, https://xxxxxx.ngrok.io와 같은 HTTPS URL이 생성됩니다. 이 URL을 통해 외부에서 안전하게 접속할 수 있습니다.
+
+모바일에서 접속: 생성된 ngrok HTTPS URL을 모바일 브라우저에 입력하여 카메라와 객체 탐지를 테스트할 수 있습니다.
+
+### ngrok을 사용한 이유
+HTTPS 보안: 모바일 브라우저에서 HTTP로 카메라를 사용할 수 없는 경우, HTTPS를 통해 보안을 강화하고 웹 애플리케이션을 안전하게 사용할 수 있습니다.
+외부 접속: ngrok을 사용하면, 로컬 서버를 인터넷상에서 안전하게 외부와 연결할 수 있어, 외부 기기에서 서버에 접근할 수 있습니다.
+
 
 
 
