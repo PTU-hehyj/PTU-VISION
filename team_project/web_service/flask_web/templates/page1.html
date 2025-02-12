@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>project huhyj</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}"> <!--css 부분-->
+    <link rel="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=search"> <!--돋보기 아이콘-->
+</head>
+<body>
+    <img src="{{ url_for('static', filename='marker.png') }}" alt="Logo" class="logo">
+    <div class="title-container">
+        <div class="title" id="title">PET FINDER</div>
+    </div>
+    <div class="speak">표시된 마커 위에 마우스를 올려놓으면 실시간 화면을 볼 수 있습니다.</div>
+
+    <div class="map-container">
+        <img src="{{ url_for('static', filename='map.JPG') }}" alt="안성스타필드_1층지도" class="map_img">
+        <!--flask에서는 정적 파일 직접 참조 불가. url_for로 친구 데려오기-->
+
+        <!-- 비디오 객체 1 -->
+        <div class="marker" id="marker1"> 
+            <img src="{{ url_for('static', filename='marker.png') }}" alt="marker1">
+            <div class="video-box" id="video1">
+                <img src="{{ url_for('video_feed_1') }}" controls autoplay muted loop width="140">
+            </div>
+        </div>
+
+        <!-- 비디오 객체 2 -->
+        <div class="marker" id="marker2">
+            <img src="{{ url_for('static', filename='marker.png') }}" alt="marker2">
+            <div class="video-box" id="video2">
+                <img src="{{ url_for('video_feed_2') }}" controls autoplay muted loop width="140">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /**
+         * 각 마커의 상태를 개별적으로 업데이트하는 함수
+         * - Flask API '/get_status'에서 데이터를 가져와서 마커별로 색상 변경
+         */
+        function updateMarkers() {
+            fetch('/get_status')
+                .then(response => response.json())
+                .then(data => {
+                    const marker1 = document.getElementById("marker1").querySelector("img"); // 첫 번째 마커
+                    const marker2 = document.getElementById("marker2").querySelector("img"); // 두 번째 마커
+    
+                    // 마커1 상태 적용
+                    let color1 = "black";
+                    if (data.marker1.status.includes("Warning")) {
+                        color1 = "blue";
+                    } else if (data.marker1.status.includes("Danger")) {
+                        color1 = "red";
+                    }
+    
+                    // 마커2 상태 적용
+                    let color2 = "black";
+                    if (data.marker2.status.includes("Warning")) {
+                        color2 = "blue";
+                    } else if (data.marker2.status.includes("Danger")) {
+                        color2 = "red";
+                    }
+    
+                    // 마커 1 색상 적용
+                    if (color1 === "black") {
+                        marker1.src = "{{ url_for('static', filename='marker_black.png') }}";
+                    } else if (color1 === "blue") {
+                        marker1.src = "{{ url_for('static', filename='marker_blue.png') }}";
+                    } else if (color1 === "red") {
+                        marker1.src = "{{ url_for('static', filename='marker_red.png') }}";
+                    }
+    
+                    // 마커 2 색상 적용
+                    if (color2 === "black") {
+                        marker2.src = "{{ url_for('static', filename='marker_black.png') }}";
+                    } else if (color2 === "blue") {
+                        marker2.src = "{{ url_for('static', filename='marker_blue.png') }}";
+                    } else if (color2 === "red") {
+                        marker2.src = "{{ url_for('static', filename='marker_red.png') }}";
+                    }
+                })
+                .catch(error => console.error("Error fetching status:", error));
+        }
+    
+        // 1초마다 상태 업데이트 (각 마커별)
+        setInterval(updateMarkers, 1000);
+    </script>
+</body>
+</html>
