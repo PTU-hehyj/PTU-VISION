@@ -55,3 +55,74 @@ ngrok: 로컬 개발 서버를 HTTPS로 안전하게 포워딩하여 외부에�
 Flask와 SocketIO로 구현한 웹 애플리케이션
 Flask는 웹 애플리케이션을 구축하는 데 사용되며, 이를 통해 웹 서버를 설정하고 실시간 비디오 스트리밍을 제공합니다.
 SocketIO는 웹소켓을 사용하여 실시간 통신을 가능하게 합니다. 이로 인해 서버와 클라이언트 간의 실시간 객체 탐지 결과와 영상 데이터를 동적으로 업데이트할 수 있습니다.
+
+```
+### 1. AWS EC2 설정
+AWS EC2 가입 및 인스턴스 생성: AWS EC2 공식 문서를 참조하여 EC2 인스턴스를 생성합니다.
+Key Pair 권한 설정: EC2 인스턴스를 생성할 때 Key Pair를 설정하고, SSH 접속을 위한 키 파일을 로컬에 저장합니다.
+보안 그룹 설정: 보안 그룹에서 5000 포트를 열어 Flask 서버에 접근할 수 있도록 설정합니다.
+### 2. EC2 인스턴스 접속
+CMD 실행 (Windows):
+cd "C:\Users\young\OneDrive\바탕 화면\"와 같이 Key Pair가 있는 디렉토리로 이동합니다.
+ssh -i "for_laptop.pem" ec2-user@[인스턴스 주소] 명령어를 통해 EC2 인스턴스에 접속합니다.
+### 3. 기본 패키지 설치
+시스템 패키지 업데이트:
+```
+sudo apt-get update
+```
+Python3 설치:
+```
+sudo apt-get install python3
+```
+pip 설치:
+```
+sudo apt-get install python3-pip
+```
+가상환경 관리자 설치:
+```
+sudo apt-get install python3-pip
+```
+### 4. 가상환경 설정
+프로젝트를 위한 독립된 Python 환경을 만들어 패키지 충돌을 방지합니다:
+
+가상환경 생성:
+```
+virtualenv dogserver
+```
+가상환경 디렉토리로 이동:
+```
+cd dogserver
+```
+가상환경 활성화:
+```
+source ./bin/activate
+```
+Flask 설치:
+```
+pip install flask
+```
+### 5. Flask 애플리케이션 설정
+애플리케이션 파일을 생성하고 편집합니다:
+
+파일 존재 여부 확인: ```ls```
+
+새 파일 생성 및 편집: ```nano app.py```
+
+### 6. 파일 저장 방법
+nano 에디터에서 코드를 입력한 후:
+
+Ctrl + X를 눌러 저장 모드로 진입
+'Y'를 입력하여 저장 확인
+파일명 확인 후 Enter로 저장 완료
+### 7. Flask 서버 실행
+서버를 실행하고 동작을 확인합니다:
+
+python3 app.py
+### 8. 인바운드 규칙 수정
+EC2 보안 그룹에서 포트 5000을 열어 Flask 서버에 접근할 수 있도록 설정해야 합니다.
+보안 그룹의 인바운드 규칙에 다음과 같이 설정합니다:
+
+Type: Custom TCP Rule
+Port Range: 5000
+Source: 0.0.0.0/0 (모든 IP 허용)
+이 설정 후, 외부에서 EC2 인스턴스의 5000번 포트로 접속할 수 있습니다.
