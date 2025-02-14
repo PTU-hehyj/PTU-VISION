@@ -6,7 +6,6 @@ app = Flask(__name__)
 
 # YOLO 모델 로드
 model = YOLO("yolov8s.pt")
-socketio = SocketIO(app)  # SocketIO 객체 생성
 # 현재 상태 저장 변수
 current_status = {
     "marker1": {"count": 0, "status": "Normal", "color": (0, 0, 0)},  # marker1에 대한 상태
