@@ -1,7 +1,6 @@
 from ultralytics import YOLO
 import cv2
 from flask import Flask, Response, render_template, jsonify
-from flask_socketio import SocketIO
 
 app = Flask(__name__)
 
@@ -66,9 +65,6 @@ def stream_video(cap, marker):
             color,
             2
         )
-
-        # SocketIO를 통해 객체 탐지 결과 전송
-        socketio.emit('object_count', {'object_count': detected_objects_count})  # 실시간 객체 수 전송
 
         # 이미지 해상도 축소
         resized_frame = cv2.resize(annotated_frame, (640, 480))  # 원하는 해상도로 축소
