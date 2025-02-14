@@ -70,8 +70,9 @@ def stream_video(cap, marker):
         # SocketIO를 통해 객체 탐지 결과 전송
         socketio.emit('object_count', {'object_count': detected_objects_count})  # 실시간 객체 수 전송
 
-        # MJPEG 형식으로 이미지를 인코딩하여 전송
-        _, buffer = cv2.imencode('.jpg', annotated_frame)
+        # 이미지 해상도 축소
+        resized_frame = cv2.resize(annotated_frame, (640, 480))  # 원하는 해상도로 축소
+        _, buffer = cv2.imencode('.jpg', resized_frame)
         frame_bytes = buffer.tobytes()
 
         # Base64로 인코딩하여 클라이언트에 전송 (불필요한 부분 제거)
@@ -79,8 +80,6 @@ def stream_video(cap, marker):
                b'Content-Type: image/jpeg\r\n\r\n' + frame_bytes + b'\r\n')
 
     cap.release()
-
-
 
 
 # Flask 라우트 설정
